@@ -1,9 +1,9 @@
 from unittest import TestCase
 
-from ka_infection.di_graph import Node, NodeError
+from ka_infection.graph import Node, NodeError
 
 
-class TestDiGraph(TestCase):
+class TestGraph(TestCase):
     def test_create_node(self):
         data = 5
         node = Node(data)
@@ -21,11 +21,18 @@ class TestDiGraph(TestCase):
 
         node.add_neighbor(node_2)
         self.assertEqual(set([node_2]), node.neighbors())
+        self.assertEqual(set([node]), node_2.neighbors())
 
         node.add_neighbor(node_2)
         self.assertEqual(set([node_2]), node.neighbors())
+        self.assertEqual(set([node]), node_2.neighbors())
 
         node.remove_neighbor(node_2)
         self.assertEqual(set(), node.neighbors())
+        self.assertEqual(set(), node_2.neighbors())
 
-        self.assertRaises(NodeError, lambda: node.remove_neighbor(node_2))
+        node.remove_neighbor(node_2)
+        self.assertEqual(set(), node.neighbors())
+        self.assertEqual(set(), node_2.neighbors())
+
+        self.assertRaises(NodeError, lambda: node.add_neighbor('str'))

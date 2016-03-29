@@ -1,4 +1,4 @@
-""" An implementation of a directed graph. """
+""" An implementation of an undirected graph. """
 
 
 class NodeError(Exception):
@@ -8,7 +8,7 @@ class NodeError(Exception):
 
 
 class Node(object):
-    """ A node within a directed, acyclic graph.
+    """ A node within an undirected graph.
     """
     def __init__(self, data):
         """ Create a new Node.
@@ -46,12 +46,17 @@ class Node(object):
             The node to create an edge to.
 
         """
+        if not isinstance(node, Node):
+            raise NodeError('A node\'s neighbors must be instances of Node')
+
+        node._neighbors.add(self)
         self._neighbors.add(node)
 
     def remove_neighbor(self, node):
         """ Remove an edge between this node and another.
         """
-        if node not in self._neighbors:
-            raise NodeError('{} not found in neighbors of {}', node, self)
+        if node in self._neighbors:
+            self._neighbors.remove(node)
 
-        self._neighbors.remove(node)
+        if self in node._neighbors:
+            node._neighbors.remove(self)
