@@ -1,3 +1,4 @@
+
 class GraphError(Exception):
     """ A custom exception type to throw from Graph objects.
     """
