@@ -5,9 +5,8 @@ def total_infection(start_node):
 
     Parameters:
     -----------
-    start_node : Node
-        The node to start the infection from. Must have a dictionary as its
-        data.
+    start_node : UserNode
+        The node to start the infection from.
 
     """
     queue = [start_node]
@@ -15,7 +14,7 @@ def total_infection(start_node):
     while len(queue) > 0:
         node = queue.pop(0)
 
-        if not node.get_label('infected', False):
-            node.label('infected', True)
+        if not node.metadata.get('infected', False):
+            node.metadata['infected'] = True
 
-            queue.extend(list(node.neighbors()))
+            queue.extend(list(node.neighbors))
