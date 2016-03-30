@@ -1,17 +1,22 @@
 from unittest import TestCase
 
-from ka_infection.graph import Node, NodeError
+from ka_infection.graph import Graph, Node, GraphError
 
 
 class TestGraph(TestCase):
     def test_create_node(self):
-        data = 5
-        node = Node(data)
-        self.assertEqual(data, node.data())
+        tag = 5
+        node = Node(tag)
+        self.assertEqual(tag, node.tag())
 
-        data = {'key': [1, 2, 3]}
-        node = Node(data)
-        self.assertEqual(data, node.data())
+    def test_label_node(self):
+        node = Node(1)
+
+        self.assertRaises(KeyError, lambda: node.get_label('foo'))
+        self.assertEqual(5, node.get_label('foo', 5))
+
+        node.label('foo', 10)
+        self.assertEqual(10, node.get_label('foo'))
 
     def test_neighbors(self):
         node = Node(1)
@@ -35,4 +40,15 @@ class TestGraph(TestCase):
         self.assertEqual(set(), node.neighbors())
         self.assertEqual(set(), node_2.neighbors())
 
-        self.assertRaises(NodeError, lambda: node.add_neighbor('str'))
+        self.assertRaises(GraphError, lambda: node.add_neighbor('str'))
+
+    def test_graph(self):
+        adj_list = {0: [1, 2], 1: [0, 2], 2: [0, 1], 3: []}
+        graph = Graph(adj_list)
+
+        self.assertEquals(
+            set([0, 1, 2, 3]),
+            set([n.tag() for n in graph.nodes()])
+        )
+
+        self.assertEquals(2, graph.get_node(2).tag())
