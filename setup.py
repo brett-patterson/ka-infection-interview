@@ -5,5 +5,6 @@ setup(
     version='0.1',
     author='Brett Patterson',
     description='A solution to the Khan Academy Infection interview project',
-    packages=find_packages()
+    packages=find_packages(),
+    install_requires=['graphviz']
 )
