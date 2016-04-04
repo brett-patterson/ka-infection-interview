@@ -50,6 +50,14 @@ class UserNode(object):
         self.neighbors = set()
         self.metadata = {}
 
+    def __eq__(self, other):
+        """ Override the equals operator to be a comparison between tags.
+        """
+        if not isinstance(other, UserNode):
+            return False
+
+        return self.tag == other.tag
+
     def __repr__(self):
         """ Get a human-readable string representation of the user.
         """

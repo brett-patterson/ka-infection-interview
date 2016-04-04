@@ -11,6 +11,11 @@ class TestGraph(TestCase):
 
         self.assertEqual('User<5>', str(node))
 
+    def test_comparison(self):
+        self.assertNotEqual(UserNode(1), UserNode(2))
+        self.assertNotEqual(UserNode(1), object())
+        self.assertEqual(UserNode(1), UserNode(1))
+
     def test_neighbors(self):
         node = UserNode(1)
         node_2 = UserNode(2)
