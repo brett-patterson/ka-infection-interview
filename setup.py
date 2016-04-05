@@ -6,5 +6,5 @@ setup(
     author='Brett Patterson',
     description='A solution to the Khan Academy Infection interview project',
     packages=find_packages(),
-    install_requires=['graphviz']
+    install_requires=['graphviz', 'PySide']
 )

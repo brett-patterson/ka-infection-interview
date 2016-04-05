@@ -1,3 +1,5 @@
+import random
+
 
 class UserGraph(object):
     """ An undirected graph implementation.
@@ -11,9 +13,9 @@ class UserGraph(object):
             An adjacency list represented as a dictionary whose keys are
             user tags and values are a list of neighboring tags.
 
-        labels: dict
+        metadata: dict
             An optional dictionary of initial metadata to apply to the users.
-            The keys are user tags the values are dictionaries of metadata.
+            The keys are user tags and the values are dictionaries of metadata.
         """
         self._users = {tag: UserNode(tag) for tag in adj_list.keys()}
         for tag, node in self._users.items():
@@ -22,6 +24,33 @@ class UserGraph(object):
 
         for tag, md in metadata.items():
             self.get_user(tag).metadata.update(md)
+
+    @classmethod
+    def random(cls, n_nodes, n_edges):
+        """ Generate a random acyclic graph with a given number of nodes and edges.
+
+        Parameters:
+        -----------
+        n_nodes : int
+            The number of nodes for the graph
+
+        n_edges : int
+            The number of edges for the graph
+
+        """
+        adj_list = {t: [] for t in range(n_nodes)}
+
+        edges = 0
+        while edges < n_edges:
+            start = random.choice(adj_list.keys())
+            end = random.choice(adj_list.keys())
+
+            if start != end:
+                adj_list[start].append(end)
+                adj_list[end].append(start)
+                edges += 1
+
+        return cls(adj_list)
 
     def get_user(self, tag):
         """ Get a user by its tag.

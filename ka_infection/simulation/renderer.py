@@ -2,7 +2,8 @@ from graphviz import Graph
 
 
 def render_graph(graph, name=None, directory=None, fill_infected='green3'):
-    """ Render a user graph to a PDF. Infected nodes are colored appropriately.
+    """ Render a user graph to an SVG file. Infected nodes are colored
+    appropriately.
 
     Parameters:
     -----------
