@@ -38,13 +38,14 @@ class SimulationWidget(QWidget):
         target = self.target_edit.value()
         delta = self.delta_edit.value()
 
-        # Clear all infected nodes
-        for node in self.graph.users():
-            node.metadata['infected'] = False
+        if hasattr(self, 'graph') and self.graph is not None:
+            # Clear all infected nodes
+            for node in self.graph.users():
+                node.metadata['infected'] = False
 
-        limited_infection(self.graph.get_user(start), self.graph, target,
-                          delta=delta)
-        self.load_graph()
+            limited_infection(self.graph.get_user(start), self.graph, target,
+                              delta=delta)
+            self.load_graph()
 
     def _setup_ui(self):
         layout = QVBoxLayout()
