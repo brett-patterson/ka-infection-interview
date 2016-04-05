@@ -88,9 +88,15 @@ def limited_infection(start_node, graph, target, delta=0):
 
     # If we need to infect more nodes, we'll have to infect partial components
     while n_infected < target - delta and len(partial_components) > 0:
-        comp = partial_components.pop()
+        comp = set(partial_components.pop())
 
-        for node in comp:
-            if n_infected < target:
+        # Use a breadth first search to do the partial infection so that
+        # infected nodes are neighbors
+        queue = [comp.pop()]
+        while len(queue) > 0 and n_infected < target:
+            node = queue.pop(0)
+
+            if not node.metadata.get('infected', False):
                 node.metadata['infected'] = True
                 n_infected += 1
+                queue.extend(list(node.neighbors))
